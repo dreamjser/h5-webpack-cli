@@ -53,10 +53,10 @@
     "webpackbar": "^5.0.2"
   },
   "bin": {
-    "vue-build-m": "bin/build_multiple.js",
-    "vue-buind-s": "bin/build_single.js",
-    "vue-create": "bin/create.js",
-    "vue-dev-m": "bin/dev_multiple.js",
-    "vue-dev-s": "bin/dev_single.js"
+    "cli-build-m": "bin/build_multiple.js",
+    "cli-buind-s": "bin/build_single.js",
+    "cli-create": "bin/create.js",
+    "cli-dev-m": "bin/dev_multiple.js",
+    "cli-dev-s": "bin/dev_single.js"
   }
 }
