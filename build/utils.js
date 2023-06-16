@@ -143,13 +143,13 @@ const createModuleRouter = (modules, cb) => {
       })
     })
   })
-
-  fs.writeFile(
-    getCurrentPath(`src/portal/single/routers.js`),
-    'export default '+ routeConf + " ]",
-    cb
-  );
-
+  fileModule.mkdir('.tmp', () => {
+    fs.writeFile(
+      getCurrentPath(`.tmp/routers.js`),
+      'export default '+ routeConf + " ]",
+      cb
+    );
+  })
 }
 
 const createRouterChildren = (cb) => {
@@ -182,16 +182,22 @@ const createMultiPage = (cb) => {
 
       Object.keys(secondConf).forEach(thirdKey => {
         const thirdConf = secondConf[thirdKey]
-        const thirdPath = path.join(process.cwd(), `src/portal/multiple/${module}/${sencondKey}/${thirdKey}`)
+        const thirdPath = path.join(process.cwd(), `.tmp/multiple/${module}/${sencondKey}/${thirdKey}`)
         const content = `
           import '@/common/app'
-          import Vue from 'vue'
+          import { createApp } from 'vue'
+          import { createPinia } from 'pinia'
           import Render from '@/modules/${module}/views/${sencondKey}/${thirdKey}.vue'
 
-          App.vm = new Vue({
-            el: '#app',
-            render: (h) => h(Render),
-          })
+          const pinia = createPinia()
+          //vue实例化
+          const vm = createApp(Render)
+
+          vm.use(pinia)
+
+          vm.mount('#app')
+
+          App.vm = vm
         `
         fileModule.mkdir(thirdPath, () => {
           fs.writeFile(
@@ -228,7 +234,7 @@ const getMulitEntry = () => {
 
       Object.keys(secondConf).forEach(thirdKey => {
         const thirdConf = secondConf[thirdKey]
-        entrys[`${module}/${sencondKey}/${thirdKey}`] = getCurrentPath(`src/portal/multiple/${module}/${sencondKey}/${thirdKey}/main.js`)
+        entrys[`${module}/${sencondKey}/${thirdKey}`] = getCurrentPath(`.tmp/multiple/${module}/${sencondKey}/${thirdKey}/main.js`)
         entryData[`${module}/${sencondKey}/${thirdKey}`] = thirdConf
       })
     })

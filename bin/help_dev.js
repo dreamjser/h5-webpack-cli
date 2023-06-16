@@ -60,7 +60,7 @@ exports.createDevFunc = (createFunc) => {
     app.use(hotMiddleware)
     // app.use(path.resolve('/static'), express.static('./static'))
 
-    app.listen(3000, () =>
+    app.listen(3003, () =>
       console.log(chalk.cyan('app listening on port 3000! \n'))
     );
   })

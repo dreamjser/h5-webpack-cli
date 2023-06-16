@@ -28,8 +28,6 @@
     "express": "^4.18.2",
     "html-webpack-plugin": "^5.5.0",
     "http-proxy-middleware": "^2.0.6",
-    "husky": "^8.0.2",
-    "json-server": "^0.17.1",
     "less": "^4.1.3",
     "less-loader": "^11.1.0",
     "mini-css-extract-plugin": "^2.7.2",
@@ -41,7 +39,7 @@
     "postcss-url": "^10.1.3",
     "readline": "^1.3.0",
     "vue-eslint-parser": "^9.1.0",
-    "vue-loader": "15.9.8",
+    "vue-loader": "^17.2.2",
     "vue-style-loader": "^4.1.3",
     "vue-template-compiler": "^2.7.14",
     "webpack": "^5.75.0",
@@ -54,7 +52,7 @@
   },
   "bin": {
     "cli-build-m": "bin/build_multiple.js",
-    "cli-buind-s": "bin/build_single.js",
+    "cli-build-s": "bin/build_single.js",
     "cli-create": "bin/create.js",
     "cli-dev-m": "bin/dev_multiple.js",
     "cli-dev-s": "bin/dev_single.js"
