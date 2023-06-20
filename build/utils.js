@@ -101,7 +101,7 @@ const styleLoaders = (options) => {
 }
 
 const getGlobalConfig = () => {
-  const env = process.argv[process.argv.length - 1]
+  const env = process.env.currentEnv
   let envConfg
 
   try {
@@ -153,11 +153,11 @@ const createModuleRouter = (modules, cb) => {
 }
 
 const createRouterChildren = (cb) => {
-  let params = process.argv.length === 3? process.argv[2].split(','): null
+  let params = process.env.currentModules
   let allModules = fs.readdirSync(getCurrentPath('src/modules'))
   let isProd = getGlobalConfig().NODE_ENV.indexOf('production') >= 0? true: false
 
-  if(!params || isProd) {
+  if(params.toLocaleLowerCase() === 'all' || isProd) {
     params = allModules
   }
 
@@ -165,11 +165,11 @@ const createRouterChildren = (cb) => {
 }
 
 const createMultiPage = (cb) => {
-  let params = process.argv.length === 3? process.argv[2].split(','): null
+  let params = process.env.currentModules
   let allModules = fs.readdirSync(getCurrentPath('src/modules'))
   let isProd = getGlobalConfig().NODE_ENV.indexOf('production') >= 0? true: false
 
-  if(!params || isProd) {
+  if(params.toLocaleLowerCase() === 'all' || isProd) {
     params = allModules
   }
 
@@ -214,11 +214,11 @@ const createMultiPage = (cb) => {
 }
 
 const getMulitEntry = () => {
-  let params = process.argv.length === 3? process.argv[2].split(','): null
+  let params = process.env.currentModules
   let allModules = fs.readdirSync(getCurrentPath('src/modules'))
   let isProd = getGlobalConfig().NODE_ENV.indexOf('production') >= 0? true: false
 
-  if(!params || isProd) {
+  if(params.toLocaleLowerCase() === 'all' || isProd) {
     params = allModules
   }
 
