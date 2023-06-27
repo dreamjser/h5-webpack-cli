@@ -18,10 +18,12 @@ webpackConfig.plugins.push(new webpack.DefinePlugin({
   GLOBAL_CONFIG: globalConfig
 }))
 
+const framework = process.env.currentFramework
+
 // 单页面
 if(process.env.pageType === 'single') {
   webpackConfig.entry = {
-    app: [getCurrentPath('src/portal/single/index.js')],
+    app: [getCurrentPath(`src/portal/single/index.${framework === 'vue'? 'js': 'tsx'}`)],
   }
   webpackConfig.plugins.push(new HtmlWebpackPlugin({
     filename: 'index.html',

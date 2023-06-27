@@ -2,7 +2,6 @@ const webpack = require('webpack')
 const chalk = require('chalk')
 const proxyMiddleware = require('http-proxy-middleware')
 const express = require('express')
-const path = require('path')
 const HtmlWebpackPlugin  = require('html-webpack-plugin')
 const compression = require('compression')
 const options = require('../build/webpack.dev.conf.js')
@@ -12,11 +11,12 @@ const appConfig = getAppConfig()
 const proxyTable = appConfig.proxyTable || {}
 
 const envConfig = getAppConfig()
+const framework = process.env.currentFramework
 
 // 单页面
 if(process.env.pageType === 'single') {
   options.entry = {
-    app: [getCurrentPath('src/portal/single/index.js')],
+    app: [getCurrentPath(`src/portal/single/index.${framework === 'vue'? 'js': 'tsx'}`)],
   }
   options.plugins.push(new HtmlWebpackPlugin({
     filename: 'index.html',

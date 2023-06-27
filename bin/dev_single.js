@@ -3,7 +3,6 @@ process.env.pageType = 'single'
 
 const { Command } = require('commander')
 const program = new Command()
-const {createDevFunc} = require('./help_dev')
 const { createRouterChildren } = require('../build/utils')
 
 program
@@ -16,8 +15,10 @@ program
 
     process.env.currentModules = modules
     process.env.currentEnv = options.env
-    process.env.currentFramework = options.currentFramework
+    process.env.currentFramework = options.framework
     process.env.currentPlatform = options.platform
+
+    const {createDevFunc} = require('./help_dev')
 
     createDevFunc(createRouterChildren)
   })
