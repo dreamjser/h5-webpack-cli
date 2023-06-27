@@ -264,6 +264,7 @@ const createMultiPage = (cb) => {
 
 const getMulitEntry = () => {
   let params = process.env.currentModules
+  let framework = process.env.framework
   let allModules = fs.readdirSync(getCurrentPath('src/modules'))
   let isProd = getGlobalConfig().NODE_ENV.indexOf('production') >= 0? true: false
 
@@ -283,7 +284,7 @@ const getMulitEntry = () => {
 
       Object.keys(secondConf).forEach(thirdKey => {
         const thirdConf = secondConf[thirdKey]
-        entrys[`${module}/${sencondKey}/${thirdKey}`] = getCurrentPath(`.tmp/multiple/${module}/${sencondKey}/${thirdKey}/main.js`)
+        entrys[`${module}/${sencondKey}/${thirdKey}`] = getCurrentPath(`.tmp/multiple/${module}/${sencondKey}/${thirdKey}/main.${framework === 'vue'? 'js': 'tsx'}`)
         entryData[`${module}/${sencondKey}/${thirdKey}`] = thirdConf
       })
     })
