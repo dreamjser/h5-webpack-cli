@@ -113,7 +113,46 @@ const getGlobalConfig = () => {
   return envConfg
 }
 
-const createModuleRouter = (modules, cb) => {
+const createModuleRouterReact = (modules, cb) => {
+  let routeConf = `import React from 'react'\n export default [`
+
+  modules.forEach((module) => {
+    const confPath = path.join(process.cwd(), `src/modules/${module}/conf.json`);
+    const conf = require(confPath)
+
+    Object.keys(conf).forEach(sencondKey => {
+      const secondConf = conf[sencondKey]
+
+      Object.keys(secondConf).forEach(thirdKey => {
+        const thirdConf = secondConf[thirdKey]
+
+        routeConf += `
+        {
+          name: '${module}${sencondKey}${thirdKey}',
+          path: '/${module}/${sencondKey}/${thirdKey}',
+          component: React.lazy(() => import('@\/modules\/${module}\/views\/${sencondKey}\/${thirdKey}')),
+          meta: {
+            title: '${thirdConf.title}',
+            needLogin: ${!thirdConf.hasOwnProperty('needLogin')? true: thirdConf.needLogin},
+            checkCard: ${!!thirdConf.checkCard},
+            checkTransfer: ${!!thirdConf.checkTransfer}
+          }
+        },
+        `
+      })
+    })
+  })
+
+  fileModule.mkdir('.tmp', () => {
+    fs.writeFile(
+      getCurrentPath(`.tmp/routers.ts`),
+      routeConf + " ]",
+      cb
+    );
+  })
+}
+
+const createModuleRouterVue = (modules, cb) => {
   let routeConf = '['
 
   modules.forEach((module) => {
@@ -154,6 +193,7 @@ const createModuleRouter = (modules, cb) => {
 
 const createRouterChildren = (cb) => {
   let params = process.env.currentModules
+  let framework = process.env.currentFramework
   let allModules = fs.readdirSync(getCurrentPath('src/modules'))
   let isProd = getGlobalConfig().NODE_ENV.indexOf('production') >= 0? true: false
 
@@ -161,11 +201,12 @@ const createRouterChildren = (cb) => {
     params = allModules
   }
 
-  createModuleRouter(params, cb)
+  framework === 'vue'? createModuleRouterVue(params, cb): createModuleRouterReact(params, cb)
 }
 
 const createMultiPage = (cb) => {
   let params = process.env.currentModules
+  let framework = process.env.currentFramework
   let allModules = fs.readdirSync(getCurrentPath('src/modules'))
   let isProd = getGlobalConfig().NODE_ENV.indexOf('production') >= 0? true: false
 
@@ -181,9 +222,8 @@ const createMultiPage = (cb) => {
       const secondConf = conf[sencondKey]
 
       Object.keys(secondConf).forEach(thirdKey => {
-        const thirdConf = secondConf[thirdKey]
         const thirdPath = path.join(process.cwd(), `.tmp/multiple/${module}/${sencondKey}/${thirdKey}`)
-        const content = `
+        const content = framework === 'vue'? `
           import '@/common/app'
           import { createApp } from 'vue'
           import { createPinia } from 'pinia'
@@ -198,10 +238,19 @@ const createMultiPage = (cb) => {
           vm.mount('#app')
 
           App.vm = vm
+        `:
         `
+          import React from 'react'
+          import ReactDOM from 'react-dom'
+          import Entry from '@/modules/${module}/views/${sencondKey}/${thirdKey}'
+          import '@/common/app'
+
+          ReactDOM.render(<Entry />, document.getElementById('app'))
+        `
+
         fileModule.mkdir(thirdPath, () => {
           fs.writeFile(
-            thirdPath + '/main.js',
+            thirdPath + `/main.${framework === 'vue'? 'js': 'tsx'}`,
             content,
             () => {}
           )

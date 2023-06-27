@@ -1,8 +1,7 @@
-const webpack = require('webpack')
 const { merge } = require('webpack-merge')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 // const CopyWebpackPlugin = require('copy-webpack-plugin')
-const { getCurrentPath, styleLoaders } = require('./utils')
+const { styleLoaders } = require('./utils')
 const baseWebpackConfig = require('./webpack.base.conf.js')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
@@ -38,7 +37,7 @@ const prodWebpackConfig = merge(baseWebpackConfig, {
       analyzerMode: 'disabled',
       generateStatsFile: true,
     }),
-    // // copy custom static assets
+    // copy custom static assets
     // new CopyWebpackPlugin([
     //   {
     //     from: getCurrentPath('./static'),
