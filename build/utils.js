@@ -199,6 +199,8 @@ const createRouterChildren = (cb) => {
 
   if(params.toLocaleLowerCase() === 'all' || isProd) {
     params = allModules
+  }else{
+    params = params.split(',')
   }
 
   framework === 'vue'? createModuleRouterVue(params, cb): createModuleRouterReact(params, cb)
