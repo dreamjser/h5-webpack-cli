@@ -1,14 +1,12 @@
 const webpack = require('webpack')
 const chalk = require('chalk')
-const proxyMiddleware = require('http-proxy-middleware')
-const express = require('express')
+const path = require('path')
+const WebpackDevServer = require('webpack-dev-server')
 const HtmlWebpackPlugin  = require('html-webpack-plugin')
-const compression = require('compression')
 const options = require('../build/webpack.dev.conf.js')
 const  { getAppConfig, getCurrentPath, getMulitEntry } = require('../build/utils')
-const app = express();
 const appConfig = getAppConfig()
-const proxyTable = appConfig.proxyTable || {}
+const proxy = appConfig.proxyTable || {}
 
 const envConfig = getAppConfig()
 const framework = process.env.currentFramework
@@ -42,27 +40,16 @@ const compiler = webpack(options);
 
 exports.createDevFunc = (createFunc) => {
   createFunc(() => {
-    const middleware = require('webpack-dev-middleware')(compiler, {publicPath: options.output.publicPath})
-    const hotMiddleware = require('webpack-hot-middleware')(compiler)
-
-    // proxy api requests
-    Object.keys(proxyTable).forEach(function (context) {
-      const options = proxyTable[context]
-      if (typeof options === 'string') {
-        options = { target: options }
-      }
-      app.use(proxyMiddleware.createProxyMiddleware(options.filter || context, options))
+    let server = new WebpackDevServer(compiler, {
+      client: {
+        overlay: false,
+      },
+      compress: true,
+      hot: true,
+      proxy,
     })
-
-    app.use(compression())
-
-    app.use(middleware)
-    app.use(hotMiddleware)
-    // app.use(path.resolve('/static'), express.static('./static'))
-
-    app.listen(3003, () =>
-      console.log(chalk.cyan('app listening on port 3000! \n'))
-    );
+    console.log(chalk.cyan(`app listening on port ${appConfig.devPort}! \n`))
+    server.listen(appConfig.devPort)
   })
 }
 
