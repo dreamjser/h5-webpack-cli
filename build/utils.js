@@ -225,7 +225,8 @@ const createMultiPage = (cb) => {
 
       Object.keys(secondConf).forEach(thirdKey => {
         const thirdPath = path.join(process.cwd(), `.tmp/multiple/${module}/${sencondKey}/${thirdKey}`)
-        const content = framework === 'vue'? `
+        const content = framework === 'vue'?
+        `
           import '@/common/app'
           import { createApp } from 'vue'
           import { createPinia } from 'pinia'
@@ -243,11 +244,12 @@ const createMultiPage = (cb) => {
         `:
         `
           import React from 'react'
-          import ReactDOM from 'react-dom'
+          import { createRoot } from 'react-dom/client'
           import Entry from '@/modules/${module}/views/${sencondKey}/${thirdKey}'
           import '@/common/app'
 
-          ReactDOM.render(<Entry />, document.getElementById('app'))
+          const root = createRoot(document.getElementById('app') as HTMLElement)
+          root.render(<Entry />)
         `
 
         fileModule.mkdir(thirdPath, () => {
