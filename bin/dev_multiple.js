@@ -2,28 +2,12 @@
 
 process.env.pageType = 'multiple'
 
-const { Command } = require('commander')
-const program = new Command()
+const commander = require('./commander')
 const { createMultiPage } = require('../build/utils')
 
-program
-  .option('--framework <f>', '框架', 'vue')
-  .option('--platform', '平台', 'mobile')
-  .option('--env', '环境', 'dev')
-  .argument('<string>', '需要构建的模块')
-  .action((modules) => {
-    const options = program.opts();
-
-    process.env.currentModules = modules
-    process.env.currentEnv = options.env
-    process.env.currentFramework = options.framework
-    process.env.currentPlatform = options.platform
-
-    const {createDevFunc} = require('./help_dev')
-
-    createDevFunc(createMultiPage)
-  })
-
-program.parse();
+commander(() => {
+  const {createDevFunc} = require('./help_dev')
+  createDevFunc(createMultiPage)
+})
 
 
