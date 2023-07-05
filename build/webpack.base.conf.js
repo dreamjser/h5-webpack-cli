@@ -57,8 +57,8 @@ let plugins = [
     cache: true,
     context: path.resolve(process.cwd()),
     files: framework === 'vue'?
-      ['src/*.js', 'src/*.vue', 'src/**/*.js', 'src/**/*.vue']:
-      ['src/*.ts', 'src/*.tsx', 'src/**/*.ts', 'src/**/*.tsx'],
+      ['src/**/*.js', 'src/**/*.vue', '.tmp/**/*.js', '.tmp/**/*.js']:
+      ['src/**/*.ts', 'src/**/*.tsx', '.tmp/**/*.ts','.tmp/**/*.tsx'],
     overrideConfigFile: getCurrentPath('.eslintrc.js'),
     fix: true,
     extensions: ['js', 'vue', 'ts', 'tsx'],
