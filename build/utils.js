@@ -114,7 +114,7 @@ const getGlobalConfig = () => {
 }
 
 const createModuleRouterReact = (modules, cb) => {
-  let routeConf = `import React from 'react'\n export default [`
+  let routeConf = `import React from 'react'\nexport default [`
 
   modules.forEach((module) => {
     const confPath = path.join(process.cwd(), `src/modules/${module}/conf.json`);
@@ -129,16 +129,16 @@ const createModuleRouterReact = (modules, cb) => {
         routeConf +=
         (
           `{\n` +
-          ` name: '${module}${sencondKey}${thirdKey}',\n` +
-          ` path: '/${module}/${sencondKey}/${thirdKey}',\n` +
-          ` component: React.lazy(() => import('@\/modules\/${module}\/views\/${sencondKey}\/${thirdKey}')),\n` +
-          ` meta: {\n` +
+          `  name: '${module}${sencondKey}${thirdKey}',\n` +
+          `  path: '/${module}/${sencondKey}/${thirdKey}',\n` +
+          `  component: React.lazy(() => import('@\/modules\/${module}\/views\/${sencondKey}\/${thirdKey}')),\n` +
+          `  meta: {\n` +
           `    title: '${thirdConf.title}',\n` +
-          `   needLogin: ${!thirdConf.hasOwnProperty('needLogin')? true: thirdConf.needLogin},\n` +
+          `    needLogin: ${!thirdConf.hasOwnProperty('needLogin')? true: thirdConf.needLogin},\n` +
           `    checkCard: ${!!thirdConf.checkCard},\n` +
           `    checkTransfer: ${!!thirdConf.checkTransfer}\n` +
           `  }\n` +
-          ` },`
+          `},\n`
         )
 
       })
@@ -176,10 +176,10 @@ const createModuleRouterVue = (modules, cb) => {
           `  component: () => import('@\/modules\/${module}\/views\/${sencondKey}\/${thirdKey}'),\n` +
           `  meta: {\n` +
           `    title: '${thirdConf.title}',\n` +
-          `   needLogin: ${!thirdConf.hasOwnProperty('needLogin')? true: thirdConf.needLogin},\n` +
+          `    needLogin: ${!thirdConf.hasOwnProperty('needLogin')? true: thirdConf.needLogin},\n` +
           `    checkCard: ${!!thirdConf.checkCard},\n` +
           `    checkTransfer: ${!!thirdConf.checkTransfer}\n` +
-          ` }\n` +
+          `  }\n` +
           `},\n`
         )
       })
