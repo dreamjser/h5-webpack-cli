@@ -128,16 +128,16 @@ const createModuleRouterReact = (modules, cb) => {
 
         routeConf +=
         (
-          `{` +
-          ` name: '${module}${sencondKey}${thirdKey}',` +
-          ` path: '/${module}/${sencondKey}/${thirdKey}',` +
-          ` component: React.lazy(() => import('@\/modules\/${module}\/views\/${sencondKey}\/${thirdKey}')),` +
-          ` meta: {` +
-          `    title: '${thirdConf.title}',` +
-          `   needLogin: ${!thirdConf.hasOwnProperty('needLogin')? true: thirdConf.needLogin},` +
-          `    checkCard: ${!!thirdConf.checkCard},` +
-          `    checkTransfer: ${!!thirdConf.checkTransfer}` +
-          `  }` +
+          `{\n` +
+          ` name: '${module}${sencondKey}${thirdKey}',\n` +
+          ` path: '/${module}/${sencondKey}/${thirdKey}',\n` +
+          ` component: React.lazy(() => import('@\/modules\/${module}\/views\/${sencondKey}\/${thirdKey}')),\n` +
+          ` meta: {\n` +
+          `    title: '${thirdConf.title}',\n` +
+          `   needLogin: ${!thirdConf.hasOwnProperty('needLogin')? true: thirdConf.needLogin},\n` +
+          `    checkCard: ${!!thirdConf.checkCard},\n` +
+          `    checkTransfer: ${!!thirdConf.checkTransfer}\n` +
+          `  }\n` +
           ` },`
         )
 
@@ -170,17 +170,17 @@ const createModuleRouterVue = (modules, cb) => {
 
         routeConf +=
         (
-          `{` +
-          `  name: '${module}${sencondKey}${thirdKey}',` +
-          `  path: '/${module}/${sencondKey}/${thirdKey}',` +
-          `  component: () => import('@\/modules\/${module}\/views\/${sencondKey}\/${thirdKey}'),` +
-          `  meta: {` +
-          `    title: '${thirdConf.title}',` +
-          `   needLogin: ${!thirdConf.hasOwnProperty('needLogin')? true: thirdConf.needLogin},` +
-          `    checkCard: ${!!thirdConf.checkCard},` +
-          `    checkTransfer: ${!!thirdConf.checkTransfer}` +
-          ` }` +
-          `},`
+          `{\n` +
+          `  name: '${module}${sencondKey}${thirdKey}',\n` +
+          `  path: '/${module}/${sencondKey}/${thirdKey}',\n` +
+          `  component: () => import('@\/modules\/${module}\/views\/${sencondKey}\/${thirdKey}'),\n` +
+          `  meta: {\n` +
+          `    title: '${thirdConf.title}',\n` +
+          `   needLogin: ${!thirdConf.hasOwnProperty('needLogin')? true: thirdConf.needLogin},\n` +
+          `    checkCard: ${!!thirdConf.checkCard},\n` +
+          `    checkTransfer: ${!!thirdConf.checkTransfer}\n` +
+          ` }\n` +
+          `},\n`
         )
       })
     })
@@ -230,23 +230,23 @@ const createMultiPage = (cb) => {
         const thirdPath = path.join(process.cwd(), `.tmp/multiple/${module}/${sencondKey}/${thirdKey}`)
         const content = framework === 'vue'?
         (
-          `import '@/common/app'`+
-          `import { createApp } from 'vue'`+
-          `import { createPinia } from 'pinia'`+
-          `import Render from '@/modules/${module}/views/${sencondKey}/${thirdKey}.vue'`+
-          `const pinia = createPinia()`+
-          `const vm = createApp(Render)`+
-          `vm.use(pinia)`+
-          `vm.mount('#app')`+
+          `import '@/common/app'\n`+
+          `import { createApp } from 'vue'\n`+
+          `import { createPinia } from 'pinia'\n`+
+          `import Render from '@/modules/${module}/views/${sencondKey}/${thirdKey}.vue'\n`+
+          `const pinia = createPinia()\n`+
+          `const vm = createApp(Render)\n`+
+          `vm.use(pinia)\n`+
+          `vm.mount('#app')\n`+
           `App.vm = vm`
         )
         :
         (
-          `import React from 'react'`+
-          `import { createRoot } from 'react-dom/client'`+
-          `import Entry from '@/modules/${module}/views/${sencondKey}/${thirdKey}'`+
-          `import '@/common/app'`+
-          `const root = createRoot(document.getElementById('app') as HTMLElement)`+
+          `import React from 'react'\n`+
+          `import { createRoot } from 'react-dom/client'\n`+
+          `import Entry from '@/modules/${module}/views/${sencondKey}/${thirdKey}'\n`+
+          `import '@/common/app'\n`+
+          `const root = createRoot(document.getElementById('app') as HTMLElement)\n`+
           `root.render(<Entry />)`
         )
         fileModule.mkdir(thirdPath, () => {
