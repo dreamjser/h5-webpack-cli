@@ -14,7 +14,7 @@ const framework = process.env.currentFramework
 // 单页面
 if(process.env.pageType === 'single') {
   options.entry = {
-    app: [getCurrentPath(`src/portal/index.${framework === 'vue'? 'js': 'tsx'}`)],
+    app: [getCurrentPath(`src/portal/index.${framework === 'vue'? 'ts': 'tsx'}`)],
   }
   options.plugins.push(new HtmlWebpackPlugin({
     filename: 'index.html',

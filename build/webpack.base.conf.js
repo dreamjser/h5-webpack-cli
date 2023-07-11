@@ -77,15 +77,27 @@ if(framework === 'vue') {
   })
 
   rules.push({
-    test: /\.js$/,
+    test: /\.tsx?$/,
+    use: [{
+      loader: 'babel-loader',
+    },{
+      loader: "ts-loader",
+      options: {
+        appendTsSuffixTo: [/\.vue$/],
+      },
+
+    }],
     include: [
       getCurrentPath('src'),
     ],
-    use: [
-      {
-        loader: 'babel-loader',
-      }
-    ]
+  })
+
+  rules.push({
+    test: /\.js$/,
+    loader: 'babel-loader',
+    include: [
+      getCurrentPath('src'),
+    ],
   })
 
   plugins.push(new VueLoaderPlugin())
@@ -106,7 +118,7 @@ module.exports = {
   target: ['web', 'es5'],
   stats: 'errors-only',
   entry: {
-    app: [getCurrentPath(`src/portal/index.${framework === 'vue'? 'js': 'tsx'}`)],
+    app: [getCurrentPath(`src/portal/index.${framework === 'vue'? 'ts': 'tsx'}`)],
   },
   output: {
     publicPath: envConfig.PUBLIC_PATH,
