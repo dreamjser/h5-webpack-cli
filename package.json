@@ -18,6 +18,7 @@
     "@dreamjser/file": "^1.0.3",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
     "@typescript-eslint/eslint-plugin": "^5.60.1",
+    "@vue/eslint-config-typescript": "^11.0.3",
     "autoprefixer": "^10.4.13",
     "babel-loader": "^9.1.0",
     "babel-plugin-import": "^1.13.5",

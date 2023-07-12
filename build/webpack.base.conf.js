@@ -127,7 +127,7 @@ module.exports = {
     chunkFilename: 'static/js/[id].[chunkhash].js',
   },
   resolve: {
-    extensions: ['.js', '.vue', '.ts', '.tsx'],
+    extensions: ['.js', '.vue', '.ts', '.tsx', '.mjs', '.cjs'],
     alias: appConfig.alias,
   },
   module: {
