@@ -118,31 +118,37 @@ const createModuleRouterReact = (modules, cb) => {
 
   modules.forEach((module) => {
     const confPath = path.join(process.cwd(), `src/modules/${module}/conf.json`);
-    const conf = require(confPath)
 
-    Object.keys(conf).forEach(sencondKey => {
-      const secondConf = conf[sencondKey]
+    try {
+      const conf = require(confPath)
 
-      Object.keys(secondConf).forEach(thirdKey => {
-        const thirdConf = secondConf[thirdKey]
+      Object.keys(conf).forEach(sencondKey => {
+        const secondConf = conf[sencondKey]
 
-        routeConf +=
-        (
-          `{\n` +
-          `  name: '${module}${sencondKey}${thirdKey}',\n` +
-          `  path: '/${module}/${sencondKey}/${thirdKey}',\n` +
-          `  component: React.lazy(() => import('@\/modules\/${module}\/views\/${sencondKey}\/${thirdKey}')),\n` +
-          `  meta: {\n` +
-          `    title: '${thirdConf.title}',\n` +
-          `    needLogin: ${!thirdConf.hasOwnProperty('needLogin')? true: thirdConf.needLogin},\n` +
-          `    checkCard: ${!!thirdConf.checkCard},\n` +
-          `    checkTransfer: ${!!thirdConf.checkTransfer}\n` +
-          `  }\n` +
-          `},\n`
-        )
+        Object.keys(secondConf).forEach(thirdKey => {
+          const thirdConf = secondConf[thirdKey]
 
+          routeConf +=
+          (
+            `{\n` +
+            `  name: '${module}${sencondKey}${thirdKey}',\n` +
+            `  path: '/${module}/${sencondKey}/${thirdKey}',\n` +
+            `  component: React.lazy(() => import('@\/modules\/${module}\/views\/${sencondKey}\/${thirdKey}')),\n` +
+            `  meta: {\n` +
+            `    title: '${thirdConf.title}',\n` +
+            `    needLogin: ${!thirdConf.hasOwnProperty('needLogin')? true: thirdConf.needLogin},\n` +
+            `    checkCard: ${!!thirdConf.checkCard},\n` +
+            `    checkTransfer: ${!!thirdConf.checkTransfer}\n` +
+            `  }\n` +
+            `},\n`
+          )
+
+        })
       })
-    })
+    } catch (error) {
+
+    }
+
   })
 
   fileModule.mkdir('.tmp', () => {
@@ -159,31 +165,36 @@ const createModuleRouterVue = (modules, cb) => {
 
   modules.forEach((module) => {
     const confPath = path.join(process.cwd(), `src/modules/${module}/conf.json`);
-    const conf = require(confPath)
+    try {
+      const conf = require(confPath)
 
-    Object.keys(conf).forEach(sencondKey => {
-      const secondConf = conf[sencondKey]
+      Object.keys(conf).forEach(sencondKey => {
+        const secondConf = conf[sencondKey]
 
-      Object.keys(secondConf).forEach(thirdKey => {
-        const thirdConf = secondConf[thirdKey]
-        console.log(thirdConf, '==')
+        Object.keys(secondConf).forEach(thirdKey => {
+          const thirdConf = secondConf[thirdKey]
+          console.log(thirdConf, '==')
 
-        routeConf +=
-        (
-          `{\n` +
-          `  name: '${module}${sencondKey}${thirdKey}',\n` +
-          `  path: '/${module}/${sencondKey}/${thirdKey}',\n` +
-          `  component: () => import('@\/modules\/${module}\/views\/${sencondKey}\/${thirdKey}'),\n` +
-          `  meta: {\n` +
-          `    title: '${thirdConf.title}',\n` +
-          `    needLogin: ${!thirdConf.hasOwnProperty('needLogin')? true: thirdConf.needLogin},\n` +
-          `    checkCard: ${!!thirdConf.checkCard},\n` +
-          `    checkTransfer: ${!!thirdConf.checkTransfer}\n` +
-          `  }\n` +
-          `},\n`
-        )
+          routeConf +=
+          (
+            `{\n` +
+            `  name: '${module}${sencondKey}${thirdKey}',\n` +
+            `  path: '/${module}/${sencondKey}/${thirdKey}',\n` +
+            `  component: () => import('@\/modules\/${module}\/views\/${sencondKey}\/${thirdKey}'),\n` +
+            `  meta: {\n` +
+            `    title: '${thirdConf.title}',\n` +
+            `    needLogin: ${!thirdConf.hasOwnProperty('needLogin')? true: thirdConf.needLogin},\n` +
+            `    checkCard: ${!!thirdConf.checkCard},\n` +
+            `    checkTransfer: ${!!thirdConf.checkTransfer}\n` +
+            `  }\n` +
+            `},\n`
+          )
+        })
       })
-    })
+    } catch (error) {
+
+    }
+
   })
   fileModule.mkdir('.tmp', () => {
     fs.writeFile(
@@ -221,43 +232,48 @@ const createMultiPage = (cb) => {
 
   params.forEach((module) => {
     const confPath = path.join(process.cwd(), `src/modules/${module}/conf.json`);
-    const conf = require(confPath)
+    try {
+      const conf = require(confPath)
 
-    Object.keys(conf).forEach(sencondKey => {
-      const secondConf = conf[sencondKey]
+      Object.keys(conf).forEach(sencondKey => {
+        const secondConf = conf[sencondKey]
 
-      Object.keys(secondConf).forEach(thirdKey => {
-        const thirdPath = path.join(process.cwd(), `.tmp/multiple/${module}/${sencondKey}/${thirdKey}`)
-        const content = framework === 'vue'?
-        (
-          `import '@/common/app'\n`+
-          `import { createApp } from 'vue'\n`+
-          `import { createPinia } from 'pinia'\n`+
-          `import Render from '@/modules/${module}/views/${sencondKey}/${thirdKey}.vue'\n`+
-          `const pinia = createPinia()\n`+
-          `const vm = createApp(Render)\n`+
-          `vm.use(pinia)\n`+
-          `vm.mount('#app')\n`+
-          `App.vm = vm`
-        )
-        :
-        (
-          `import React from 'react'\n`+
-          `import { createRoot } from 'react-dom/client'\n`+
-          `import Entry from '@/modules/${module}/views/${sencondKey}/${thirdKey}'\n`+
-          `import '@/common/app'\n`+
-          `const root = createRoot(document.getElementById('app') as HTMLElement)\n`+
-          `root.render(<Entry />)`
-        )
-        fileModule.mkdir(thirdPath, () => {
-          fs.writeFile(
-            thirdPath + `/main.${framework === 'vue'? 'js': 'tsx'}`,
-            content,
-            () => {}
+        Object.keys(secondConf).forEach(thirdKey => {
+          const thirdPath = path.join(process.cwd(), `.tmp/multiple/${module}/${sencondKey}/${thirdKey}`)
+          const content = framework === 'vue'?
+          (
+            `import '@/common/app'\n`+
+            `import { createApp } from 'vue'\n`+
+            `import { createPinia } from 'pinia'\n`+
+            `import Render from '@/modules/${module}/views/${sencondKey}/${thirdKey}.vue'\n`+
+            `const pinia = createPinia()\n`+
+            `const vm = createApp(Render)\n`+
+            `vm.use(pinia)\n`+
+            `vm.mount('#app')\n`+
+            `App.vm = vm`
           )
+          :
+          (
+            `import React from 'react'\n`+
+            `import { createRoot } from 'react-dom/client'\n`+
+            `import Entry from '@/modules/${module}/views/${sencondKey}/${thirdKey}'\n`+
+            `import '@/common/app'\n`+
+            `const root = createRoot(document.getElementById('app') as HTMLElement)\n`+
+            `root.render(<Entry />)`
+          )
+          fileModule.mkdir(thirdPath, () => {
+            fs.writeFile(
+              thirdPath + `/main.${framework === 'vue'? 'js': 'tsx'}`,
+              content,
+              () => {}
+            )
+          })
         })
       })
-    })
+    } catch (error) {
+
+    }
+
   })
 
   setTimeout(cb, 1000)
@@ -278,17 +294,23 @@ const getMulitEntry = () => {
 
   params.forEach((module) => {
     const confPath = path.join(process.cwd(), `src/modules/${module}/conf.json`);
-    const conf = require(confPath)
 
-    Object.keys(conf).forEach(sencondKey => {
-      const secondConf = conf[sencondKey]
+    try {
+      const conf = require(confPath)
 
-      Object.keys(secondConf).forEach(thirdKey => {
-        const thirdConf = secondConf[thirdKey]
-        entrys[`${module}/${sencondKey}/${thirdKey}`] = getCurrentPath(`.tmp/multiple/${module}/${sencondKey}/${thirdKey}/main.${framework === 'vue'? 'ts': 'tsx'}`)
-        entryData[`${module}/${sencondKey}/${thirdKey}`] = thirdConf
+      Object.keys(conf).forEach(sencondKey => {
+        const secondConf = conf[sencondKey]
+
+        Object.keys(secondConf).forEach(thirdKey => {
+          const thirdConf = secondConf[thirdKey]
+          entrys[`${module}/${sencondKey}/${thirdKey}`] = getCurrentPath(`.tmp/multiple/${module}/${sencondKey}/${thirdKey}/main.${framework === 'vue'? 'ts': 'tsx'}`)
+          entryData[`${module}/${sencondKey}/${thirdKey}`] = thirdConf
+        })
       })
-    })
+    } catch (error) {
+
+    }
+
   })
 
   return {
