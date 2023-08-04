@@ -16,9 +16,6 @@ const prodWebpackConfig = merge(baseWebpackConfig, {
   },
   optimization: {
     minimize: true,
-    runtimeChunk: {
-      name: 'runtime',
-    },
     splitChunks: {
       chunks: 'all',
       cacheGroups: {
@@ -31,7 +28,7 @@ const prodWebpackConfig = merge(baseWebpackConfig, {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: 'static/css/[name].[contenthash].css'
+      filename: '[name].[contenthash].css'
     }),
     new BundleAnalyzerPlugin({
       analyzerMode: 'disabled',

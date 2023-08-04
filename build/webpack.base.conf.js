@@ -50,11 +50,6 @@ let rules = [
 ]
 
 let plugins = [
-  new WebpackBar(),
-  new LodashWebpackPlugin(),
-  new webpack.DefinePlugin({
-    GLOBAL_CONFIG: envConfig,
-  }),
   new ESLintPlugin({
     cache: true,
     context: path.resolve(process.cwd()),
@@ -66,7 +61,13 @@ let plugins = [
     extensions: ['js', 'vue', 'ts', 'tsx'],
     exclude: '/node_modules/',
     failOnWarning: true,
-  })
+  }),
+  new WebpackBar(),
+  new LodashWebpackPlugin(),
+  new webpack.DefinePlugin({
+    GLOBAL_CONFIG: envConfig,
+  }),
+
 ]
 
 if(framework === 'vue') {
@@ -125,8 +126,8 @@ module.exports = {
   output: {
     publicPath: envConfig.PUBLIC_PATH,
     path: getCurrentPath('./dist'),
-    filename: 'static/js/[name].[chunkhash].js',
-    chunkFilename: 'static/js/[id].[chunkhash].js',
+    filename: '[name].[chunkhash].js',
+    chunkFilename: '[id].[chunkhash].js',
   },
   resolve: {
     extensions: ['.js', '.vue', '.ts', '.tsx', '.mjs', '.cjs'],
