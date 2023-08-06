@@ -303,7 +303,7 @@ const getMulitEntry = () => {
 
         Object.keys(secondConf).forEach(thirdKey => {
           const thirdConf = secondConf[thirdKey]
-          entrys[`${module}/${sencondKey}/${thirdKey}`] = getCurrentPath(`.tmp/multiple/${module}/${sencondKey}/${thirdKey}/main.${framework === 'vue'? 'ts': 'tsx'}`)
+          entrys[`${module}/${sencondKey}/${thirdKey}`] = getCurrentPath(`.tmp/multiple/${module}/${sencondKey}/${thirdKey}/main.${framework === 'vue'? 'js': 'tsx'}`)
           entryData[`${module}/${sencondKey}/${thirdKey}`] = thirdConf
         })
       })
