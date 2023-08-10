@@ -125,7 +125,7 @@ module.exports = {
   },
   output: {
     publicPath: envConfig.PUBLIC_PATH,
-    path: getCurrentPath('./dist'),
+    path: getCurrentPath(appConfig.outputPath || 'dist'),
     filename: '[name].[chunkhash].js',
     chunkFilename: '[id].[chunkhash].js',
   },
