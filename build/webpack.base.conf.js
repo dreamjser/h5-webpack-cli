@@ -2,7 +2,6 @@ const path = require('path')
 const webpack = require('webpack')
 const WebpackBar = require('webpackbar')
 const ESLintPlugin = require('eslint-webpack-plugin')
-const LodashWebpackPlugin = require('lodash-webpack-plugin')
 const { getCurrentPath, getVueLoaderConfig, getAppConfig, getGlobalConfig } = require('./utils')
 
 const appConfig = getAppConfig()
@@ -63,7 +62,6 @@ let plugins = [
     failOnWarning: true,
   }),
   new WebpackBar(),
-  new LodashWebpackPlugin(),
   new webpack.DefinePlugin({
     GLOBAL_CONFIG: envConfig,
   }),
