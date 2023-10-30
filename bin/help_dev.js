@@ -46,6 +46,7 @@ exports.createDevFunc = (createFunc) => {
       },
       compress: true,
       hot: true,
+      historyApiFallback: true,
       proxy,
     })
     console.log(chalk.cyan(`app listening on port ${appConfig.devPort}! \n`))
