@@ -40,7 +40,7 @@ const compiler = webpack(options);
 
 exports.createDevFunc = (createFunc) => {
   createFunc(() => {
-    let server = new WebpackDevServer(compiler, {
+    let server = new WebpackDevServer({
       client: {
         overlay: false,
       },
@@ -48,9 +48,10 @@ exports.createDevFunc = (createFunc) => {
       hot: true,
       historyApiFallback: true,
       proxy,
-    })
+      port: appConfig.devPort
+    }, compiler)
     console.log(chalk.cyan(`app listening on port ${appConfig.devPort}! \n`))
-    server.listen(appConfig.devPort)
+    server.start()
   })
 }
 
