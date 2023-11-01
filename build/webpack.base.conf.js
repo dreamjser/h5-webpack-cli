@@ -80,7 +80,7 @@ if(framework === 'vue') {
   rules.push({
     test: /\.tsx?$/,
     use: [{
-      loader: 'babel-loader',
+      loader: 'swc-loader',
     },{
       loader: "ts-loader",
       options: {
@@ -95,7 +95,7 @@ if(framework === 'vue') {
 
   rules.push({
     test: /\.js$/,
-    loader: 'babel-loader',
+    loader: 'swc-loader',
     include: [
       getCurrentPath('src'),
     ],
@@ -108,7 +108,7 @@ if(framework === 'vue') {
     exclude: /node_modules/,
     use: [
       {
-        loader: 'babel-loader',
+        loader: 'swc-loader',
       },
     ]
   })
