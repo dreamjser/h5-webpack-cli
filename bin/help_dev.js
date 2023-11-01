@@ -45,7 +45,6 @@ exports.createDevFunc = (createFunc) => {
         overlay: false,
       },
       compress: true,
-      hot: true,
       historyApiFallback: true,
       proxy,
       port: appConfig.devPort
