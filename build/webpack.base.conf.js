@@ -115,7 +115,7 @@ if(framework === 'vue') {
 module.exports = {
   context: __dirname,
   target: ['web', 'es5'],
-  stats: 'errors-only',
+  stats: 'minimal',
   entry: {
     app: [getCurrentPath(`src/portal/index.${framework === 'vue'? 'ts': 'tsx'}`)],
   },
