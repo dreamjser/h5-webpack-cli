@@ -173,7 +173,6 @@ const createModuleRouterVue = (modules, cb) => {
 
         Object.keys(secondConf).forEach(thirdKey => {
           const thirdConf = secondConf[thirdKey]
-          console.log(thirdConf, '==')
 
           routeConf +=
           (

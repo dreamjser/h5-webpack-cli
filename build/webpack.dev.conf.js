@@ -11,7 +11,7 @@ Object.keys(baseWebpackConfig.entry).forEach(function (name) {
   baseWebpackConfig.entry[name] = ['webpack-hot-middleware/client?quiet=true&reload=true'].concat(baseWebpackConfig.entry[name])
 })
 
-let plugins = [new webpack.HotModuleReplacementPlugin()]
+let plugins = []
 
 if(framework === 'react') {
   plugins.push(new ReactRefreshPlugin({
