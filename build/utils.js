@@ -134,16 +134,13 @@ const createModuleRouterReact = (modules, cb) => {
             `  name: '${module}${sencondKey}${thirdKey}',\n` +
             `  path: '/${module}/${sencondKey}/${thirdKey}',\n` +
             `  component: React.lazy(() => import('@\/modules\/${module}\/views\/${sencondKey}\/${thirdKey}')),\n` +
-            `  meta: {\n` +
-            `    title: '${thirdConf.title}',\n` +
-            `    needLogin: ${!thirdConf.hasOwnProperty('needLogin')? true: thirdConf.needLogin},\n` +
-            `    checkCard: ${!!thirdConf.checkCard},\n` +
-            `    checkTransfer: ${!!thirdConf.checkTransfer}\n` +
-            `  }\n` +
+            `  meta: ${JSON.stringify(thirdConf)}`+
             `},\n`
           )
 
         })
+
+
       })
     } catch (error) {
 
@@ -180,14 +177,11 @@ const createModuleRouterVue = (modules, cb) => {
             `  name: '${module}${sencondKey}${thirdKey}',\n` +
             `  path: '/${module}/${sencondKey}/${thirdKey}',\n` +
             `  component: () => import('@\/modules\/${module}\/views\/${sencondKey}\/${thirdKey}'),\n` +
-            `  meta: {\n` +
-            `    title: '${thirdConf.title}',\n` +
-            `    needLogin: ${!thirdConf.hasOwnProperty('needLogin')? true: thirdConf.needLogin},\n` +
-            `    checkCard: ${!!thirdConf.checkCard},\n` +
-            `    checkTransfer: ${!!thirdConf.checkTransfer}\n` +
-            `  }\n` +
+            `  meta: ${JSON.stringify(thirdConf)}`,
             `},\n`
           )
+
+          console.log(routeConf)
         })
       })
     } catch (error) {
