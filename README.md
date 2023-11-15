@@ -17,9 +17,9 @@ cli-create mb_home/index/index 首页
 + 参数二：首页，页面标题
 
 
-### cli-dev-s/cli-dev-m/cli-build-s/cli-build-m
+### 构建命令
 
-`cli-dev-s`单页面应用本地构建
+`cli-dev-s` 单页面应用本地构建
 
 `cli-dev-m` 多页面应用本地构建
 
@@ -31,8 +31,6 @@ cli-create mb_home/index/index 首页
 cli-dev-s mb_home,mb_login --framework=vue --platform=mobile --env=prod
 ```
 
-
-
 + 参数：mb_home,mb_login，构建模块，所有模块传all
 
 + 选项-framework，可选值vue/react，项目所用的框架
@@ -40,3 +38,7 @@ cli-dev-s mb_home,mb_login --framework=vue --platform=mobile --env=prod
 + 选项-platform，可选值mobile/desktop，项目平台
 
 + 选项-env，项目的环境变量，根据项目文件夹config下的env.xxx.js取值，环境变量可通过全局变量GLOBAL_ENV.xxx获取
+
+### 测试命令
+
+`cli-test` 集成jest，参数参考jest参数
