@@ -170,18 +170,16 @@ const createModuleRouterVue = (modules, cb) => {
 
         Object.keys(secondConf).forEach(thirdKey => {
           const thirdConf = secondConf[thirdKey]
-
           routeConf +=
           (
             `{\n` +
             `  name: '${module}${sencondKey}${thirdKey}',\n` +
             `  path: '/${module}/${sencondKey}/${thirdKey}',\n` +
             `  component: () => import('@\/modules\/${module}\/views\/${sencondKey}\/${thirdKey}'),\n` +
-            `  meta: ${JSON.stringify(thirdConf)}`,
+            `  meta: ${JSON.stringify(thirdConf)}` +
             `},\n`
           )
 
-          console.log(routeConf)
         })
       })
     } catch (error) {
