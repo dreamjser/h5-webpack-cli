@@ -48,7 +48,10 @@ exports.createDevFunc = (createFunc) => {
       historyApiFallback: true,
       proxy,
       hot: true,
-      port: appConfig.devPort
+      port: appConfig.devPort,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      }
     }, compiler)
     console.log(chalk.cyan(`app listening on port ${appConfig.devPort}! \n`))
     server.start()

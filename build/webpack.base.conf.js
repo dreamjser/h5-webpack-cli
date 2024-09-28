@@ -8,6 +8,8 @@ const envConfig = getGlobalConfig()
 
 const framework = process.env.currentFramework
 
+const packageName = require(getCurrentPath('package.json')).name
+
 let rules = [
   {
     test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
@@ -122,8 +124,9 @@ module.exports = {
   output: {
     publicPath: envConfig.PUBLIC_PATH,
     path: getCurrentPath(appConfig.outputPath || 'dist'),
-    filename: '[name].[chunkhash].js',
-    chunkFilename: '[id].[chunkhash].js',
+    library: `${packageName}-[name]`,
+    libraryTarget: 'umd',
+    chunkLoadingGlobal: `webpackJsonp_${packageName}`,
   },
   resolve: {
     extensions: ['.js', '.vue', '.ts', '.tsx', '.mjs', '.cjs'],
