@@ -47,6 +47,7 @@ export const createDevFunc = (createFunc) => {
       historyApiFallback: true,
       proxy,
       hot: true,
+      open: true,
       port: appConfig.devPort,
       headers: {
         "Access-Control-Allow-Origin": "*",

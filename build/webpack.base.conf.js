@@ -74,7 +74,7 @@ let plugins = [
 ]
 
 if(framework === 'vue') {
-  const { VueLoaderPlugin } = require('vue-loader')
+  const { VueLoaderPlugin } = (await import('vue-loader')).default
 
   rules.push({
     test: /\.vue$/,
