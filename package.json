@@ -4,6 +4,7 @@
   "description": "a vue cli for mobile and desktop application",
   "author": "dreamjser@gmail.com",
   "license": "ISC",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dreamjser/h5-webpack-cli.git"

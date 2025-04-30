@@ -1,14 +1,19 @@
-const path = require('path')
-const webpack = require('webpack')
-const ESLintPlugin = require('eslint-webpack-plugin')
-const { getCurrentPath, getVueLoaderConfig, getAppConfig, getGlobalConfig } = require('./utils')
+import path from 'path'
+import webpack from 'webpack'
+import ESLintPlugin from 'eslint-webpack-plugin'
+import { getCurrentPath, getVueLoaderConfig, getAppConfig, getGlobalConfig } from './utils.js'
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import fs from 'fs'
 
-const appConfig = getAppConfig()
-const envConfig = getGlobalConfig()
+const appConfig = await getAppConfig()
+const envConfig = await getGlobalConfig()
 
 const framework = process.env.currentFramework
 
-const packageName = require(getCurrentPath('package.json')).name
+const packageName = fs.readFileSync(getCurrentPath('package.json'), 'utf-8').name
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 let rules = [
   {
@@ -56,7 +61,7 @@ let plugins = [
     files: framework === 'vue'?
       ['src/**/*.js', 'src/**/*.vue']:
       ['src/**/*.ts', 'src/**/*.tsx'],
-    overrideConfigFile: getCurrentPath('.eslintrc.js'),
+    overrideConfigFile: getCurrentPath('.eslintrc.cjs'),
     fix: true,
     extensions: ['js', 'vue', 'ts', 'tsx'],
     exclude: '/node_modules/',
@@ -114,7 +119,7 @@ if(framework === 'vue') {
   })
 }
 
-module.exports = {
+export default {
   context: __dirname,
   target: ['web', 'es5'],
   stats: 'minimal',

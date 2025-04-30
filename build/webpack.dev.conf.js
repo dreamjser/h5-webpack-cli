@@ -1,8 +1,8 @@
-const webpack  = require('webpack')
-const { merge }  = require('webpack-merge')
-const ReactRefreshPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
-const { styleLoaders }  = require('./utils')
-const baseWebpackConfig  = require('./webpack.base.conf.js')
+import webpack from 'webpack'
+import { merge } from 'webpack-merge'
+import ReactRefreshPlugin from '@pmmmwh/react-refresh-webpack-plugin'
+import { styleLoaders } from './utils.js'
+import baseWebpackConfig from './webpack.base.conf.js'
 
 const framework = process.env.currentFramework
 
@@ -36,4 +36,4 @@ const devWebpackConfig = merge(baseWebpackConfig, {
   plugins,
 })
 
-module.exports = devWebpackConfig
+export default devWebpackConfig

@@ -1,21 +1,25 @@
-const fs = require('fs')
-const path = require('path')
-const fileModule = require('@dreamjser/file')
-const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+import fs from 'fs'
+import path from 'path'
+import fileModule from '@dreamjser/file'
+import MiniCssExtractPlugin from "mini-css-extract-plugin"
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 // 获取运行环境目录路径
-const getCurrentPath = (p) => {
+export const getCurrentPath = (p) => {
   return path.join(process.cwd(), p)
 }
 
 // 获取appConfig
-const getAppConfig = () => {
-  const config = require(getCurrentPath('app.config'))
-  return config
+export const getAppConfig = async () => {
+  const config = await import(getCurrentPath('app.config.js'))
+  return config.default
 }
 
 // 获取vueLoaderConfig
-const getVueLoaderConfig = () => {
+export const getVueLoaderConfig = () => {
   return {
     loaders: cssLoaders({
       sourceMap: true,
@@ -32,7 +36,7 @@ const getVueLoaderConfig = () => {
 }
 
 // css-loader
-const cssLoaders = (options) => {
+export const cssLoaders = (options) => {
   options = options || {}
 
   const cssLoader = {
@@ -85,7 +89,7 @@ const cssLoaders = (options) => {
 }
 
 // style-loader
-const styleLoaders = (options) => {
+export const styleLoaders = (options) => {
   const output = []
   const loaders = cssLoaders(options)
 
@@ -100,27 +104,28 @@ const styleLoaders = (options) => {
   return output
 }
 
-const getGlobalConfig = () => {
+export const getGlobalConfig = async () => {
   const env = process.env.currentEnv
   let envConfg
 
   try {
-    envConfg = require(getCurrentPath(`config/${env}.env.js`))
+    envConfg = await import(getCurrentPath(`config/${env}.env.js`))
   } catch (error) {
-    envConfg = require(getCurrentPath(`config/dev.env.js`))
+    envConfg = await import(getCurrentPath(`config/dev.env.js`))
   }
 
-  return envConfg
+  return envConfg.default
 }
 
-const createModuleRouterReact = (modules, cb) => {
+export const createModuleRouterReact = (modules, cb) => {
   let routeConf = `import React from 'react'\nexport default [`
 
   modules.forEach((module) => {
     const confPath = path.join(process.cwd(), `src/modules/${module}/conf.json`);
 
     try {
-      const conf = require(confPath)
+      const jsonData = fs.readFileSync(confPath, 'utf-8');
+      const conf = JSON.parse(jsonData);
 
       Object.keys(conf).forEach(sencondKey => {
         const secondConf = conf[sencondKey]
@@ -157,13 +162,14 @@ const createModuleRouterReact = (modules, cb) => {
   })
 }
 
-const createModuleRouterVue = (modules, cb) => {
+export const createModuleRouterVue = (modules, cb) => {
   let routeConf = '['
 
   modules.forEach((module) => {
     const confPath = path.join(process.cwd(), `src/modules/${module}/conf.json`);
     try {
-      const conf = require(confPath)
+      const jsonData = fs.readFileSync(confPath, 'utf-8');
+      const conf = JSON.parse(jsonData);
 
       Object.keys(conf).forEach(sencondKey => {
         const secondConf = conf[sencondKey]
@@ -196,11 +202,12 @@ const createModuleRouterVue = (modules, cb) => {
   })
 }
 
-const createRouterChildren = (cb) => {
+export const createRouterChildren = async (cb) => {
   let params = process.env.currentModules
   let framework = process.env.currentFramework
   let allModules = fs.readdirSync(getCurrentPath('src/modules'))
-  let isProd = getGlobalConfig().NODE_ENV.indexOf('production') >= 0? true: false
+  let envConfg = await getGlobalConfig()
+  let isProd = envConfg.NODE_ENV.indexOf('production') >= 0? true: false
 
   if(params.toLocaleLowerCase() === 'all' || isProd) {
     params = allModules
@@ -211,11 +218,13 @@ const createRouterChildren = (cb) => {
   framework === 'vue'? createModuleRouterVue(params, cb): createModuleRouterReact(params, cb)
 }
 
-const createMultiPage = (cb) => {
+export const createMultiPage = async (cb) => {
   let params = process.env.currentModules
   let framework = process.env.currentFramework
   let allModules = fs.readdirSync(getCurrentPath('src/modules'))
-  let isProd = getGlobalConfig().NODE_ENV.indexOf('production') >= 0? true: false
+  let envConfg = await getGlobalConfig()
+  let appConfig = await getAppConfig()
+  let isProd = envConfg.NODE_ENV.indexOf('production') >= 0? true: false
 
   if(params.toLocaleLowerCase() === 'all' || isProd) {
     params = allModules
@@ -224,7 +233,8 @@ const createMultiPage = (cb) => {
   params.forEach((module) => {
     const confPath = path.join(process.cwd(), `src/modules/${module}/conf.json`);
     try {
-      const conf = require(confPath)
+      const jsonData = fs.readFileSync(confPath, 'utf-8');
+      const conf = JSON.parse(jsonData);
 
       Object.keys(conf).forEach(sencondKey => {
         const secondConf = conf[sencondKey]
@@ -240,7 +250,7 @@ const createMultiPage = (cb) => {
             `const pinia = createPinia()\n`+
             `const vm = createApp(Render)\n`+
             `vm.use(pinia)\n`+
-            `vm.mount('#app')\n`+
+            `vm.mount('#${appConfig.containerId}')\n`+
             `App.vm = vm`
           )
           :
@@ -249,7 +259,7 @@ const createMultiPage = (cb) => {
             `import { createRoot } from 'react-dom/client'\n`+
             `import Entry from '@/modules/${module}/views/${sencondKey}/${thirdKey}'\n`+
             `import '@/common/app'\n`+
-            `const root = createRoot(document.getElementById('app') as HTMLElement)\n`+
+            `const root = createRoot(document.getElementById('${appConfig.containerId}') as HTMLElement)\n`+
             `root.render(<Entry />)`
           )
           fileModule.mkdir(thirdPath, () => {
@@ -270,11 +280,12 @@ const createMultiPage = (cb) => {
   setTimeout(cb, 1000)
 }
 
-const getMulitEntry = () => {
+export const getMulitEntry = async () => {
   let params = process.env.currentModules
   let framework = process.env.currentFramework
   let allModules = fs.readdirSync(getCurrentPath('src/modules'))
-  let isProd = getGlobalConfig().NODE_ENV.indexOf('production') >= 0? true: false
+  let envConfg = await getGlobalConfig()
+  let isProd = envConfg.NODE_ENV.indexOf('production') >= 0? true: false
 
   if(params.toLocaleLowerCase() === 'all' || isProd) {
     params = allModules
@@ -287,7 +298,8 @@ const getMulitEntry = () => {
     const confPath = path.join(process.cwd(), `src/modules/${module}/conf.json`);
 
     try {
-      const conf = require(confPath)
+      const jsonData = fs.readFileSync(confPath, 'utf-8');
+      const conf = JSON.parse(jsonData);
 
       Object.keys(conf).forEach(sencondKey => {
         const secondConf = conf[sencondKey]
@@ -309,19 +321,3 @@ const getMulitEntry = () => {
     entrys,
   }
 }
-
-exports.getAppConfig = getAppConfig
-
-exports.getCurrentPath = getCurrentPath
-
-exports.styleLoaders = styleLoaders
-
-exports.getVueLoaderConfig = getVueLoaderConfig
-
-exports.getGlobalConfig = getGlobalConfig
-
-exports.createRouterChildren = createRouterChildren
-
-exports.createMultiPage = createMultiPage
-
-exports.getMulitEntry = getMulitEntry

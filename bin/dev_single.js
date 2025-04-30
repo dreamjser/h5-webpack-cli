@@ -1,11 +1,11 @@
 #!/usr/bin/env node
+
+import commander from './commander.js'
+import { createRouterChildren } from '../build/utils.js'
+
 process.env.pageType = 'single'
 
-const commander = require('./commander')
-const { createRouterChildren } = require('../build/utils')
-
-commander(() => {
-  const {createDevFunc} = require('./help_dev')
+commander(async () => {
+  const { createDevFunc } = await import('./help_dev.js')
   createDevFunc(createRouterChildren)
 })
-

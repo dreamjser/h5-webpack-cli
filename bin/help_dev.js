@@ -1,14 +1,13 @@
-const webpack = require('webpack')
-const chalk = require('chalk')
-const path = require('path')
-const WebpackDevServer = require('webpack-dev-server')
-const HtmlWebpackPlugin  = require('html-webpack-plugin')
-const options = require('../build/webpack.dev.conf.js')
-const  { getAppConfig, getCurrentPath, getMulitEntry } = require('../build/utils')
-const appConfig = getAppConfig()
+import webpack from 'webpack'
+import chalk from 'chalk'
+import WebpackDevServer from 'webpack-dev-server'
+import HtmlWebpackPlugin  from 'html-webpack-plugin'
+import options from '../build/webpack.dev.conf.js'
+import { getAppConfig, getCurrentPath, getMulitEntry, getGlobalConfig } from '../build/utils.js'
+const appConfig = await getAppConfig()
 const proxy = appConfig.proxyTable || {}
 
-const envConfig = getAppConfig()
+const envConfig = await getGlobalConfig()
 const framework = process.env.currentFramework
 
 // 单页面
@@ -22,7 +21,7 @@ if(process.env.pageType === 'single') {
     vhost: envConfig.PUBLIC_PATH,
   }))
 }else {
-  const entrysObj = getMulitEntry()
+  const entrysObj = await getMulitEntry()
   options.entry = entrysObj.entrys
 
   Object.keys(entrysObj.entrys).forEach(entry => {
@@ -38,7 +37,7 @@ if(process.env.pageType === 'single') {
 
 const compiler = webpack(options);
 
-exports.createDevFunc = (createFunc) => {
+export const createDevFunc = (createFunc) => {
   createFunc(() => {
     let server = new WebpackDevServer({
       client: {

@@ -1,9 +1,8 @@
-const { merge } = require('webpack-merge')
-const MiniCssExtractPlugin = require("mini-css-extract-plugin")
-// const CopyWebpackPlugin = require('copy-webpack-plugin')
-const { styleLoaders } = require('./utils')
-const baseWebpackConfig = require('./webpack.base.conf.js')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+import { merge } from 'webpack-merge'
+import MiniCssExtractPlugin from "mini-css-extract-plugin"
+import { styleLoaders } from './utils.js'
+import baseWebpackConfig from './webpack.base.conf.js'
+import BundleAnalyzerPlugin from 'webpack-bundle-analyzer'
 
 const prodWebpackConfig = merge(baseWebpackConfig, {
   mode: 'production',
@@ -45,4 +44,4 @@ const prodWebpackConfig = merge(baseWebpackConfig, {
   ]
 });
 
-module.exports = prodWebpackConfig;
+export default prodWebpackConfig

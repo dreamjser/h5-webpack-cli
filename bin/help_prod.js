@@ -1,10 +1,10 @@
 #!/usr/bin/env node
-const ora = require('ora')
-const chalk = require('chalk')
-const webpack = require('webpack')
-const webpackConfig = require('../build/webpack.prod.conf')
-const HtmlWebpackPlugin  = require('html-webpack-plugin')
-const { getGlobalConfig,getAppConfig, getCurrentPath, getMulitEntry } = require('../build/utils')
+import ora from 'ora'
+import chalk from 'chalk'
+import webpack from 'webpack'
+import webpackConfig from '../build/webpack.prod.conf.js'
+import HtmlWebpackPlugin  from 'html-webpack-plugin'
+import { getGlobalConfig,getAppConfig, getCurrentPath, getMulitEntry } from '../build/utils.js'
 const spinner = ora('building for production...')
 
 const envConfig = getAppConfig()
@@ -48,7 +48,7 @@ if(process.env.pageType === 'single') {
   })
 }
 
-exports.createProdFunc = function(createFunc) {
+export const createProdFunc = function(createFunc) {
   spinner.start();
 
   createFunc(() => {

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const jest = require('jest')
+import jest from 'jest'
 const argv = process.argv.slice(2)
 
 jest.run(argv)

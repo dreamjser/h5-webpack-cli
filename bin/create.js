@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
-const fs = require('fs')
-const path = require('path')
-const chalk = require('chalk')
-const { Command } = require('commander')
-const fileModule = require('@dreamjser/file')
-const { getAppConfig, getCurrentPath } = require('../build/utils.js')
+import fs from 'fs'
+import path from 'path'
+import chalk from 'chalk'
+import { Command } from 'commander'
+import fileModule from '@dreamjser/file'
+import { getAppConfig, getCurrentPath } from '../build/utils.js'
 
 const appConfig = getAppConfig()
 const { mkdir } = fileModule

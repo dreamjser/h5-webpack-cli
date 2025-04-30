@@ -1,7 +1,8 @@
-const { Command } = require('commander')
+import { Command } from 'commander'
+
 const program = new Command()
 
-module.exports = (cb) => {
+export default (cb) => {
   program
   .option('--framework <f>', '框架', 'vue')
   .option('--platform <m>', '平台', 'mobile')
@@ -14,7 +15,6 @@ module.exports = (cb) => {
     process.env.currentEnv = options.env
     process.env.currentFramework = options.framework
     process.env.currentPlatform = options.platform
-
     cb && cb()
   })
 

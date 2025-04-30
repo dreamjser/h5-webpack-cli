@@ -1,12 +1,11 @@
 #!/usr/bin/env node
+import commander from './commander.js'
+import { createMultiPage } from '../build/utils.js'
 
 process.env.pageType = 'multiple'
 
-const commander = require('./commander')
-const { createMultiPage } = require('../build/utils')
-
-commander(() => {
-  const {createDevFunc} = require('./help_dev')
+commander(async () => {
+  const { createDevFunc } = await import('./help_dev.js')
   createDevFunc(createMultiPage)
 })
 
