@@ -7,7 +7,7 @@ import { Command } from 'commander'
 import fileModule from '@dreamjser/file'
 import { getAppConfig, getCurrentPath } from '../build/utils.js'
 
-const appConfig = getAppConfig()
+const appConfig = await getAppConfig()
 const { mkdir } = fileModule
 const program = new Command()
 
