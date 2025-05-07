@@ -243,6 +243,7 @@ export const createMultiPage = async (cb) => {
           const thirdPath = path.join(process.cwd(), `.tmp/multiple/${module}/${sencondKey}/${thirdKey}`)
           const content = framework === 'vue'?
           (
+            `import '@/common/styles/app.less'\n`+
             `import '@/common/app'\n`+
             `import { createApp } from 'vue'\n`+
             `import { createPinia } from 'pinia'\n`+
@@ -255,6 +256,7 @@ export const createMultiPage = async (cb) => {
           )
           :
           (
+            `import '@/common/styles/app.less'\n`+
             `import React from 'react'\n`+
             `import { createRoot } from 'react-dom/client'\n`+
             `import Entry from '@/modules/${module}/views/${sencondKey}/${thirdKey}'\n`+
