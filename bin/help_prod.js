@@ -7,8 +7,9 @@ import HtmlWebpackPlugin  from 'html-webpack-plugin'
 import { getGlobalConfig,getAppConfig, getCurrentPath, getMulitEntry } from '../build/utils.js'
 const spinner = ora('building for production...')
 
-const envConfig = getAppConfig()
-const globalConfig = getGlobalConfig()
+const envConfig = await getAppConfig()
+const globalConfig = await getGlobalConfig()
+
 if(!globalConfig) {
   console.log(chalk.red('环境变量错误'))
   return
@@ -33,8 +34,6 @@ if(process.env.pageType === 'single') {
 }else {
   const entrysObj = getMulitEntry()
   webpackConfig.entry = entrysObj.entrys
-
-
 
   Object.keys(entrysObj.entrys).forEach(entry => {
     console.log(entrysObj.entryData[entry].title)
