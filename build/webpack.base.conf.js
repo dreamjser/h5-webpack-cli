@@ -11,7 +11,7 @@ const envConfig = await getGlobalConfig()
 
 const framework = process.env.currentFramework
 
-const packageName = fs.readFileSync(getCurrentPath('package.json'), 'utf-8').name
+const packageName = JSON.parse(fs.readFileSync(getCurrentPath('package.json'), 'utf-8')).name
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -132,6 +132,9 @@ export default {
     library: `${packageName}-[name]`,
     libraryTarget: 'umd',
     chunkLoadingGlobal: `webpackJsonp_${packageName}`,
+    assetModuleFilename: 'static/[hash][ext][query]',
+    filename: '[name].[hash].js',
+    chunkFilename: 'static/js/[name].[hash].js',
   },
   resolve: {
     extensions: ['.js', '.vue', '.ts', '.tsx', '.mjs', '.cjs'],

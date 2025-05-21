@@ -2,7 +2,7 @@ import { merge } from 'webpack-merge'
 import MiniCssExtractPlugin from "mini-css-extract-plugin"
 import { styleLoaders } from './utils.js'
 import baseWebpackConfig from './webpack.base.conf.js'
-import BundleAnalyzerPlugin from 'webpack-bundle-analyzer'
+import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer'
 
 const prodWebpackConfig = merge(baseWebpackConfig, {
   mode: 'production',
@@ -27,7 +27,7 @@ const prodWebpackConfig = merge(baseWebpackConfig, {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: '[name].[contenthash].css'
+      filename: 'static/css/[name].[contenthash].css'
     }),
     new BundleAnalyzerPlugin({
       analyzerMode: 'disabled',
