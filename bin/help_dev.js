@@ -17,7 +17,7 @@ if(process.env.pageType === 'single') {
   }
   options.plugins.push(new HtmlWebpackPlugin({
     filename: 'index.html',
-    template: getCurrentPath('index.html'),
+    template: getCurrentPath('template/index.html'),
     vhost: envConfig.PUBLIC_PATH,
   }))
 }else {
@@ -27,7 +27,7 @@ if(process.env.pageType === 'single') {
   Object.keys(entrysObj.entrys).forEach(entry => {
     options.plugins.push(new HtmlWebpackPlugin({
       filename: entry + '.html',
-      template: getCurrentPath('index.html'),
+      template: getCurrentPath('template/index.html'),
       chunks: [entry],
       title: entrysObj.entryData[entry].title,
       vhost: envConfig.PUBLIC_PATH,
