@@ -72,6 +72,7 @@ let plugins = [
       ...envConfig,
       PAGE_TYPE: process.env.pageType,
       PLATFORM: process.env.platform,
+      FRAMEWORK: process.env.currentFramework,
     },
   }),
 
