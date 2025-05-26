@@ -68,7 +68,11 @@ let plugins = [
     failOnWarning: true,
   }),
   new webpack.DefinePlugin({
-    GLOBAL_CONFIG: envConfig,
+    GLOBAL_CONFIG: {
+      ...envConfig,
+      PAGE_TYPE: process.env.pageType,
+      PLATFORM: process.env.platform,
+    },
   }),
 
 ]
