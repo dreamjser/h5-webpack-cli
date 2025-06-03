@@ -193,6 +193,7 @@ export const createModuleRouterVue = (modules, cb) => {
     }
 
   })
+
   fileModule.mkdir('.tmp', () => {
     fs.writeFile(
       getCurrentPath(`.tmp/routers.ts`),
@@ -214,6 +215,9 @@ export const createRouterChildren = async (cb) => {
   }else{
     params = params.split(',')
   }
+
+  const routerContent = fs.readFileSync(getCurrentPath('src/common/router/index_s.ts'), 'utf-8')
+  fs.writeFileSync(getCurrentPath('src/common/router/index.ts'), routerContent)
 
   framework === 'vue'? createModuleRouterVue(params, cb): createModuleRouterReact(params, cb)
 }
@@ -278,6 +282,9 @@ export const createMultiPage = async (cb) => {
     }
 
   })
+
+  const routerContent = fs.readFileSync(getCurrentPath('src/common/router/index_m.ts'), 'utf-8')
+  fs.writeFileSync(getCurrentPath('src/common/router/index.ts'), routerContent)
 
   setTimeout(cb, 1000)
 }
